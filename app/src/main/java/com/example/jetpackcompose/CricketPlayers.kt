@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,10 +39,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.jetpackcompose.ui.theme.JetpackComposeTheme
 
-class MainActivity : ComponentActivity() {
+class CricketPlayers : ComponentActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -52,42 +53,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun init() {
-        JetpackComposeTheme {
-            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            }
-        }
-    }
-
     data class Students(val name: String, val score: Int = 0, val content: String)
 
-    @Composable
-    fun StudentList(s: ArrayList<Students>, modifier: Modifier = Modifier) {
-        s.forEach {
-            Column() {
-                Row {
-                    Text(
-                        text = "Name : ${it.name} "
-                    )
-                    Text(
-                        text = "Age : " + it.score.toString(), fontSize = 15.sp
-                    )
-                }
-            }
-        }
-    }
-
-    // Old one
-    @Composable
-    fun Greeting(name: String, from: String, modifier: Modifier = Modifier) {
-        Text(
-            text = "Hello $name!", modifier = modifier
-        )
-        Text(
-            text = from, fontSize = 15.sp
-        )
-    }
 
     //@Preview(name = "Light Mode")
     @Preview(
@@ -104,9 +71,6 @@ class MainActivity : ComponentActivity() {
     fun LoadData()
     {
         JetpackComposeTheme {
-            var s = ArrayList<Students>()
-            //   s.add(Students("Siva", 30))
-            // s.add(Students("Karthi", 32))
 
             // Sample conversation data
             val conversationSample = listOf(
@@ -178,7 +142,6 @@ class MainActivity : ComponentActivity() {
             )
 
             Conversation(conversationSample.toMutableList())
-            // MessageCard(Students("Karthi", 32))
         }
     }
 
@@ -249,42 +212,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-    // Old approch
-    @Composable
-    fun MessageCard(msg: List<Students>) {
-        Column {
-            msg.forEach {
-                Spacer(modifier = Modifier.height(15.dp))
-                Surface(shape = MaterialTheme.shapes.large, shadowElevation = 10.dp) {
-                    Row {
-                        Image(
-                            painter = painterResource(R.drawable.profile),
-                            contentDescription = "Contact profile picture",
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, MaterialTheme.colorScheme.primary, CircleShape)
-                        )
-                        // Add a horizontal space between the image and the column
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column {
-                            Text(
-                                text = it.name,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = it.score.toString(),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-                    }
-                }
-                // Spacer(modifier = Modifier.height(10.dp))
-            }
-        }
-
-    }
 }

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.3.2"
 converterMoshi = "2.9.0"
+escposThermalprinterAndroid = "3.3.0"
 hiltAndroid = "2.48"
 hiltNavigationCompose = "1.2.0"
 kotlin = "1.9.0"
@@ -14,11 +15,14 @@ composeBom = "2024.06.00"
 loggingInterceptor = "5.0.0-alpha.2"
 moshiKotlin = "1.13.0"
 retrofit = "2.9.0"
+constraintlayoutComposeAndroid = "1.1.0"
+constraintlayout = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "converterMoshi" }
+escpos-thermalprinter-android = { module = "com.github.DantSu:ESCPOS-ThermalPrinter-Android", version.ref = "escposThermalprinterAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -36,6 +40,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-constraintlayout-compose-android = { group = "androidx.constraintlayout", name = "constraintlayout-compose-android", version.ref = "constraintlayoutComposeAndroid" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 #Include lib
 #my-library = { group = "com.myapplication", name = "mylibrary", version.ref = "my-library" }
 
