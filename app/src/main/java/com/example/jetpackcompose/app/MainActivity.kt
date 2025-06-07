@@ -57,14 +57,6 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Init() {
         AppTheme {
-
-            val sharedPreferences = EncryptedSharedPreferences.create(
-                "SecurePrefs",
-                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
          //   Scaffold(modifier = Modifier.fillMaxSize())
             LoadData()
 

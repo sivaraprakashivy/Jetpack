@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -42,7 +42,7 @@ android {
         viewBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.6.10"
     }
     packaging {
         resources {
@@ -75,7 +75,7 @@ dependencies {
 
 
     // Room Database
-    implementation ("androidx.room:room-runtime:2.7.1")
+    implementation (libs.androidx.room.runtime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
