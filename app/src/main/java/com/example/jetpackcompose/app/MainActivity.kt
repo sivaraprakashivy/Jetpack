@@ -1,4 +1,4 @@
-package com.example.jetpackcompose
+package com.example.jetpackcompose.app
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -14,8 +14,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,9 +23,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +39,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.jetpackcompose.R
+import com.example.jetpackcompose.data.Students
+import com.example.jetpackcompose.ui.theme.AppTheme
 import com.example.jetpackcompose.ui.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,48 +49,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            Init()
+
+        }
+    }
+
+    @Composable
+    fun Init() {
+        AppTheme {
+
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                "SecurePrefs",
+                MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+         //   Scaffold(modifier = Modifier.fillMaxSize())
             LoadData()
+
         }
     }
 
-    @Composable
-    fun init() {
-        JetpackComposeTheme {
-            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            }
-        }
-    }
 
-    data class Students(val name: String, val score: Int = 0, val content: String)
-
-    @Composable
-    fun StudentList(s: ArrayList<Students>, modifier: Modifier = Modifier) {
-        s.forEach {
-            Column() {
-                Row {
-                    Text(
-                        text = "Name : ${it.name} "
-                    )
-                    Text(
-                        text = "Age : " + it.score.toString(), fontSize = 15.sp
-                    )
-                }
-            }
-        }
-    }
-
-    // Old one
-    @Composable
-    fun Greeting(name: String, from: String, modifier: Modifier = Modifier) {
-        Text(
-            text = "Hello $name!", modifier = modifier
-        )
-        Text(
-            text = from, fontSize = 15.sp
-        )
-    }
-
-    //@Preview(name = "Light Mode")
+    //@Pmvview(name = "Light Mode")
     @Preview(
         uiMode = Configuration.UI_MODE_NIGHT_YES,
         showBackground = true,
@@ -100,13 +83,10 @@ class MainActivity : ComponentActivity() {
     fun GreetingPreview() {
         LoadData()
     }
+
     @Composable
-    fun LoadData()
-    {
+    fun LoadData() {
         JetpackComposeTheme {
-            var s = ArrayList<Students>()
-            //   s.add(Students("Siva", 30))
-            // s.add(Students("Karthi", 32))
 
             // Sample conversation data
             val conversationSample = listOf(
@@ -186,8 +166,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Conversation(messages: List<Students>) {
         LazyColumn {
-            items(messages) { message ->
-                MessageCard(message)
+            items(messages) { it ->
+                MessageCard(it)
             }
         }
     }
@@ -215,76 +195,52 @@ class MainActivity : ComponentActivity() {
             }
             Spacer(modifier = Modifier.width(4.dp))
 
-            // We keep track if the message is expanded or not in this
-            // variable
-            var isExpanded by remember { mutableStateOf(false) }
-            // surfaceColor will be updated gradually from one color to the other
-            val surfaceColor by animateColorAsState(
-                if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-            )
-
-            // We toggle the isExpanded variable when we click on this Column
-            Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
-                Text(
-                    text = msg.name,
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.titleSmall
+                // We keep track if the message is expanded or not in this
+                // variable
+                var isExpanded by remember { mutableStateOf(false) }
+                // surfaceColor will be updated gradually from one color to the other
+                val surfaceColor by animateColorAsState(
+                    if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                    label = "",
                 )
 
-                Surface(
-                    shape = MaterialTheme.shapes.medium, shadowElevation = 2.dp,
-                    color = surfaceColor, modifier = Modifier
-                        .animateContentSize()
-                        .padding(2.dp)
-                ) {
+                // We toggle the isExpanded variable when we click on this Column
+                Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
                     Text(
-                        text = msg.content.toString(),
-                        modifier = Modifier.padding(all = 1.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        // If the message is expanded, we display all its content otherwise we only display the first line
-                        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                        text = msg.name,
+                        color = MaterialTheme.colorScheme.secondary,
+                        style = MaterialTheme.typography.titleSmall
                     )
-                }
-            }
-        }
-    }
 
-
-    // Old approch
-    @Composable
-    fun MessageCard(msg: List<Students>) {
-        Column {
-            msg.forEach {
-                Spacer(modifier = Modifier.height(15.dp))
-                Surface(shape = MaterialTheme.shapes.large, shadowElevation = 10.dp) {
-                    Row {
-                        Image(
-                            painter = painterResource(R.drawable.profile),
-                            contentDescription = "Contact profile picture",
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(CircleShape)
-                                .border(1.5.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                    Surface(
+                        shape = MaterialTheme.shapes.medium, shadowElevation = 2.dp,
+                        color = surfaceColor, modifier = Modifier
+                            .animateContentSize()
+                            .padding(2.dp)
+                    ) {
+                        Text(
+                            text = msg.content,
+                            modifier = Modifier.padding(all = 1.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            // If the message is expanded, we display all its content otherwise we only display the first line
+                            maxLines = if (isExpanded) Int.MAX_VALUE else 1,
                         )
-                        // Add a horizontal space between the image and the column
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Column {
-                            Text(
-                                text = it.name,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = it.score.toString(),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
                     }
                 }
-                // Spacer(modifier = Modifier.height(10.dp))
+
+            // Button placed in a Box to align it to the right
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd // Aligns to the right
+            ) {
+                ElevatedButton(
+                    onClick = { /* TODO */ },
+                    modifier = Modifier.padding(start = 8.dp)
+                ) {
+                    Text("Show more")
+                }
             }
         }
-
     }
+
 }

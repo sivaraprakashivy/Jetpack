@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.jetpackcompose"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.jetpackcompose"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -31,14 +31,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -48,6 +49,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    ndkVersion = "25.2.9519653"
 }
 
 dependencies {
@@ -62,6 +64,19 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout.compose.android)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.material)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+  //  implementation(libs.coil.compose)
+    implementation(libs.volley)
+    implementation(libs.androidx.material3.window.size)
+    // Hilt
+
+
+    // Room Database
+    implementation ("androidx.room:room-runtime:2.7.1")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
